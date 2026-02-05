@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { createServer } from "http";
+import mongoose from "mongoose";
 
 const app = express();
 app.set("trust proxy", true);
@@ -23,6 +24,16 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// ✅ Server start + MongoDB connection
 server.listen(PORT, async () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is starting on port ${PORT}...`);
+
+  try {
+    // In Mongoose 7+, just pass the connection string
+    await mongoose.connect(process.env.MONGO_DB_URL);
+    console.log("MongoDB connected");
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    process.exit(1); // stop server if DB fails
+  }
 });
