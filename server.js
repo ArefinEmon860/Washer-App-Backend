@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import { createServer } from "http";
 import mongoose from "mongoose";
-import notFound from "./middleware/notFound.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -19,8 +18,6 @@ app.use(
 
 app.use(express.json());
 
-
-app.use(notFound);
 
 app.get("/", (req, res) => {
   res.send("Server is running...!!");
