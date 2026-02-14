@@ -3,6 +3,9 @@ import express from "express";
 import cors from "cors";
 import { createServer } from "http";
 import mongoose from "mongoose";
+import router from "./mainroute/index.js";
+import notFound from "./middleware/notFound.js";
+import globalErrorHandler from "./middleware/globalErrorHandler.js";
 
 const app = express();
 app.set("trust proxy", true);
@@ -17,6 +20,11 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use(notFound);
+app.use(globalErrorHandler);
+
+app.use("/api", router);
 
 
 app.get("/", (req, res) => {
